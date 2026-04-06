@@ -69,8 +69,45 @@ function App ()
         setCanMoveSprite(scene.scene.key !== 'MainMenu');
         
     }
-
-    return (
+    if(phaserRef.current){
+        switch (phaserRef.current.scene.scene.key) {
+        case 'MainMenu': return (
+            <div id="app">
+                <PhaserGame ref={phaserRef} currentActiveScene={currentScene} />
+                <div id="LogInForm">
+                    <form action ="/ServLogin">
+                        Username: <input type="text" id="FirstName"/> <br/>
+                        Password:  <input type="text" id="LastName"/> <br/>
+                         <br/>
+                        <input type="button" id="BTLogin" value="Login"/>
+                        <input type="button" id="BTRegister" value="Register"/>
+                    </form>
+                </div>
+            </div>
+        );
+        default:
+        return (
+            <div id="app">
+                <PhaserGame ref={phaserRef} currentActiveScene={currentScene} />
+                <div>
+                    <div>
+                        <button className="button" onClick={changeScene}>Change Scene</button>
+                    </div>
+                    <div>
+                        <button disabled={canMoveSprite} className="button" onClick={moveSprite}>Toggle Movement</button>
+                    </div>
+                    <div className="spritePosition">Sprite Position:
+                        <pre>{`{\n  x: ${spritePosition.x}\n  y: ${spritePosition.y}\n}`}</pre>
+                    </div>
+                    <div>
+                        <button className="button" onClick={addSprite}>Add New Sprite</button>
+                    </div>
+                </div>
+            </div>
+        );
+        } 
+        }else {
+            return (
         <div id="app">
             <PhaserGame ref={phaserRef} currentActiveScene={currentScene} />
             <div>
@@ -88,7 +125,8 @@ function App ()
                 </div>
             </div>
         </div>
-    )
+    );
+    }
 }
 
 export default App
